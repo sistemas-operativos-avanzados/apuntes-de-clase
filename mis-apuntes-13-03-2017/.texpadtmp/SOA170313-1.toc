@@ -1,0 +1,23 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Administrativo -- Recordatorios}{1}{section.1}
+\contentsline {subsection}{\numberline {1.1}Quiz \#4}{1}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Forro para ex\IeC {\'a}men}{1}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Res\IeC {\'u}menes para la pr\IeC {\'o}xima semana}{1}{subsection.1.3}
+\contentsline {section}{\numberline {2}Monitores de M\IeC {\'a}quinas Virtuales (VMM)}{2}{section.2}
+\contentsline {paragraph}{Escenario:}{2}{section*.2}
+\contentsline {paragraph}{\IeC {\textquestiondown }Y si las dos arquitecturas son muy diferentes?}{2}{section*.3}
+\contentsline {paragraph}{\IeC {\textquestiondown }Qu\IeC {\'e} tal si no son tan diferentes?}{2}{section*.4}
+\contentsline {paragraph}{\IeC {\textquestiondown }Y si hubiera que hacer un simulador de x86 en x86?}{2}{section*.5}
+\contentsline {paragraph}{\IeC {\textquestiondown }C\IeC {\'o}mo hacer un simulador de una arquitectura en ella misma?}{2}{section*.6}
+\contentsline {subsection}{\numberline {2.1}\IeC {\textquestiondown }C\IeC {\'o}mo escribir un VMM?}{3}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}VMM}{3}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}\IeC {\textquestiondown }Qu\IeC {\'e} problemas tiene esto?}{3}{subsection.2.3}
+\contentsline {paragraph}{Existe una contradicci\IeC {\'o}n cuando se dise\IeC {\~n}a un VMM porque:}{3}{section*.7}
+\contentsline {paragraph}{Escenario: Imaginemonos un bit el cual nos dice el modo del hardware (1 = privilegiado, 0 = no privilegiado)}{4}{section*.8}
+\contentsline {paragraph}{Supongamos que la aplicaci\IeC {\'o}n hace una divisi\IeC {\'o}n por cero:}{4}{section*.9}
+\contentsline {paragraph}{\IeC {\textquestiondown }Qu\IeC {\'e} le va a pasar al programa que hace la divisi\IeC {\'o}n por cero?}{4}{section*.10}
+\contentsline {paragraph}{Si en una m\IeC {\'a}quina virtual en donde el hardware virtual est\IeC {\'a} en modo privilegiado se intenta ejecutar una instrucci\IeC {\'o}n privilegiada cuando el \relax $\@@underline {\hbox {hardware real est\IeC {\'a} en modo no privilegiado,}}\mathsurround \z@ $\relax }{4}{section*.11}
+\contentsline {subsection}{\numberline {2.4}M\IeC {\'a}quinas virtuales puras:}{4}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}M\IeC {\'a}quinas virtuales impuras:}{4}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Paravirtualizaci\IeC {\'o}n}{4}{subsection.2.6}
+\contentsline {subsection}{\numberline {2.7}Ventajas y desventajas de m\IeC {\'a}quinas virtuales}{5}{subsection.2.7}
