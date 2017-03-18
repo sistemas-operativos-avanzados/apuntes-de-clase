@@ -22,12 +22,14 @@ colorlinks,bookmarksopen,bookmarksnumbered,citecolor=red,urlcolor=red]{hyperref}
 \usepackage{amsmath,cases,mathtools}
 \usepackage{amsthm}
 \usepackage{array}
+\usepackage{MnSymbol,wasysym}
 \usepackage[pdftex,active,tightpage]{preview}
 \usetikzlibrary{babel}
 \usetikzlibrary{arrows,automata,positioning}
 \graphicspath{ {images/} }
 \usepackage{pgfplots}
 \usepackage[lined,boxed,commentsnumbered]{algorithm2e}
+\usepackage{calligra}
 \usetikzlibrary{er}
 
 
@@ -89,6 +91,7 @@ El ``forro'' oficial para los exámenes: una página tamaño carta escrita a man
     \item 0402
     \item 0406
 \end{enumerate}
+También se va a exponer el artículo 0608.
 
 \newpage
 \section{Monitores de Máquinas Virtuales (VMM)}
@@ -173,7 +176,7 @@ child {node[attribute] at (0,3) {$H'$}
 \item Este software va a crear varias máquina virtuales 
 \item \underline{Requisitos:}
     \begin{itemize}
-        \item Los $H'$ son idénticos al hardware que está debajo de $H$.
+        \item Los $H'$ son idénticos al hardware que está debajo del VMM.
         \item Cualquier software que corre en el hardware real debería de correr en las virtualizadas.
         \item Un software que interesaría que corriera en $H'$ sería un sistema operativo.
         \item Podrían ser diferentes sistemas operativos
@@ -182,11 +185,11 @@ child {node[attribute] at (0,3) {$H'$}
 \end{itemize}
 
 
-\subsection{VMM}
+\subsection{Monitor de Máquinas Virtuales - VMM}
 \begin{itemize}
     \item Va a repartir el tiempo de las máquinas virtuales, le va a dar a cada una un poco de tiempo para correr.
     \item \textbf{Va a procurar brindar protección y no administración} (como en Exokernel). 
-    \item Va a aislar las máquinas virtuales, estas no deben de ser impactadas por el funcionamiento o fallo de las de las otras.
+    \item Va a aislar las máquinas virtuales, estas no deben de ser impactadas por el funcionamiento o fallo de las otras.
     \item ¿Tienen que correr en modo protegido? se puede resolver quitando el sistema operativo. El VMM arranca por encima del hardware.
     \item Un programa que corre en una máquina virtual no tiene forma de saber que está en una máquina virtual.
     \item Va a correr idéntico como si corriera en una máquina real.
@@ -211,9 +214,9 @@ child {node[attribute] at (0,3) {$H'$}
     \item Hay que asegurar la virtualización, la máquina virtual es un programa más.
 \end{itemize}
 
-\paragraph{Escenario: Imaginemonos un bit el cual nos dice el modo del hardware (1 = privilegiado, 0 = no privilegiado)}
+\paragraph{Escenario: Imaginémonos un \emph{bit} el cual nos dice el modo del hardware (1 = privilegiado, 0 = no privilegiado)}
 
-\large{**** Poner dibujo aqui ****}
+%\large{**** Poner dibujo aqui ****}
 
 Cuando el programa de aplicación corre el hardware real está en modo no privilegiado y el hardware virtual está en modo no privilegiado.
 
@@ -222,7 +225,7 @@ Cuando el programa de aplicación corre el hardware real está en modo no privil
 
 Cuando un error como división por cero se da, el VMM tiene la forma de saber cuál máquina virtual estaba corriendo en ese momento y le pasa el control al hardware virtual. Luego se cambia a modo no privilegiado.
 
-El hardware virtual se pone en modo privilegiado y el sistema operativo maneja el \emph{trap}. El sistema operativa de la máquina virtual corre la rutina especializada para manejar el \emph{trap} en el hardware real el cual en este momento está en modo no privilegiado, pero el hardware virtual está en modo privilegiado. El sistema operativo cree que está ejecutando una instrucción privilegiada. Luego de manejar el \emph{trap} el bit de modo de privilegiado en el hardware virtual se degrada a 0. 
+El hardware virtual se pone en modo privilegiado y el sistema operativo maneja el \emph{trap}. El sistema operativo de la máquina virtual corre la rutina especializada para manejar el \emph{trap} en el hardware real el cual en este momento está en modo no privilegiado, pero el hardware virtual está en modo privilegiado. El sistema operativo cree que está ejecutando una instrucción privilegiada. Luego de manejar el \emph{trap} el bit de modo de privilegiado en el hardware virtual se degrada a 0. 
 
 \paragraph{¿Qué le va a pasar al programa que hace la división por cero?} No sabemos, eso lo decidirá el sistema operativo que corre en la máquina virtual, el VMM no está conciente de esto.
 
@@ -232,15 +235,33 @@ El concepto de VMM lo introdujo IBM con la VM-370.
 
 \subsection{Máquinas virtuales puras:} Máquinas virtuales que no tienen forma de saber que son reales.
 
-\subsection{Máquinas virtuales impuras:} una máquina que de pronto tiene forma de darse cuenta que no es real. Una algún tipo de truco ``sucio'', como poner algo en algún registro para comunicarle a la máquina virtual -- que se de cuenta -- que no es real.
+\subsection{Máquinas virtuales impuras:} Una máquina que de pronto tiene forma de darse cuenta que no es real. Se usa algún tipo de truco ``sucio'', como poner algo en algún registro para comunicarle a la máquina virtual -- que se de cuenta -- que no es real.
 
 ¿Para qué queremos esto? 
     \begin{itemize}
-        \item El enfoque de máquinas virtuals tiende a ser ineficiente. Hay mucho mapeos.
+        \item El enfoque de máquinas virtuales tiende a ser ineficiente. Hay mucho mapeos.
         \item Si se sabe que una máquina no es real entonces se puden ahorrar estos mapeos.
         \item Las máquinas virtuales impuras buscan esto para comunicarse con el monitor, optimizar cosas y ser más eficientes.
         \item VM-370 es un esquema de máquina virtual impura.
     \end{itemize}
+    
+
+\newpage
+    
+\fbox{
+  \parbox{\textwidth}{
+  {\fontfamily{calligra}\fontsize{14}{1} \selectfont{Algo de historia sobre monitores de máquinas virtuales, cortesía de Wikipedia \smiley{}}}\\
+  
+  
+Los hipervisores fueron originalmente desarrollados a principios de los años 1970 cuando, para reducir costos, se consolidaban varias computadoras aisladas de diferentes departamentos de la empresa en una sola y más grande —el mainframe— capaz de servir a múltiples sectores. Al correr múltiples sistemas operativos a la vez, el hipervisor permite la consolidación, dando robustez y estabilidad al sistema; aún si un sistema operativo colapsa, los otros continúan trabajando sin interrupción.
+
+\paragraph{}La primera computadora diseñada específicamente para virtualización fue el mainframe IBM S/360 Modelo 67. Esta característica de virtualización ha sido un estándar de la línea que siguió IBM S/370 y sus sucesoras, incluyendo la serie actual.
+
+\paragraph{}La necesidad actual de consolidar diferentes servidores y de lograr una administración simplificada han hecho renovar el interés en la tecnología de los hipervisores. La inmensa mayoría de los vendedores de sistemas Unix, incluyendo Sun Microsystems, HP, IBM y SGI han estado vendiendo hardware virtualizado desde la década de 2000. Estos sistemas son eficientes pero extremadamente costosos.
+
+\paragraph{}Uno de los primeros hipervisores para PC fue Vmware, desarrollado a finales de los años 1990. La arquitectura x86, usada en la mayoría de los sistemas de PC, es particularmente difícil de virtualizar. Pero los grandes fabricantes de microprocesadores, como AMD e Intel, están incorporando extensiones para tratar las partes de la arquitectura x86 que son más difíciles o ineficientes de virtualizar, proporcionando un apoyo adicional al hipervisor por parte del hardware. Esto permite un código de virtualización más simple y un mejor rendimiento para una virtualización completa.
+  }
+}    
    
 \subsection{Paravirtualización}
 Conforme el número de máquinas virtuales se incrementa, la separación entre tiempo virtual y tiempo físico aumenta, afectando adversamente cualquier aspecto de hardware dependiente de tiempo, incluyendo entrega de interrupciones y temporizadores. Para abordar estos desafíos, se propone paravirtualización. \textbf{La idea clave de esta técnica es el exponer una arquitectura virtual de hardware que difiere de la arquitectura del hardware físico subyacente. Pequeños cambios a la arquitectura virtual son suficientes para eliminar los cuellos de botella en escalibilidad artificiales que afectan los sistemas tradicionales}. En los 70s se proponen arquitecturas de máquina virtual \emph{impuras} para mejorar el rendimiento o bien reducir la complejidad de la implementación de los sistemas. \cite{whitaker}
@@ -252,13 +273,27 @@ Conforme el número de máquinas virtuales se incrementa, la separación entre t
 \caption{Comparación de arquitectura de sistemas: (a) En un sistema operativo convencional, la capa de abstracción de hardware es la único subsistema del sistema operativo con conocimiento del hardware físico subyacente. (b) Un VMM tradicional expone una replica no modificada de la arquitectura del hardware físico. (c) Un VMM paravirtualizado expone una arquitectura modificada de hardware. Tomado de \cite{whitaker}.}
 \end{figure}
 
+En la paravirtualización, el hardware de la máquina física no es simulado en el sistema operativo de la máquina virtual. Se pasa el uso de una interface de programación incorporada que la aplicación puede utilizar para tomar los requisitos del sistema operativo modificado de la máquina virtual.
 
 
 Para que la virtualización funcione:
 Cualquier instrucción peligrosa, que ponga en riesgo la virtualización, tiene que ser privilegiada. Para poner el hardware verdadero en modo no privilegiado para que llegue el VMM y arregle esto. El 386 no cumplia esto. Habian ciertas instrucciones que eran privilegiadas y que no eran tomadas por el VMM.
 
-An old idea: x86 hardware virtualization:\\ \url{http://www.os2museum.com/wp/an-old-idea-x86-hardware-virtualization/}
+En el artículo \emph{An old idea: x86 hardware virtualization} de Michal Necasek (\url{http://www.os2museum.com/wp/an-old-idea-x86-hardware-virtualization/}) se expone la situación del momento. A continuación un extracto del artículo:
 
+\textit{The advantages of virtualization were obvious to anyone familiar with IBM's VM/370 system. Older operating systems and applications could be kept running on upgraded hardware, while new operating systems could be incrementally tested in a production environment. Best of all, multiple operating systems could run on the a host system at the same time.}
+
+\textit{With the 386, Intel finally had a processor architecture comparable to mainframe CPUs. Unfortunately hardware support for virtualization was restricted to 8086 systems, as noted above. Virtualizing a 32-bit protected-mode system was not practical.}
+
+\textit{One of the nastier issues was caused by segmentation and GDT/LDT (Global/Local Descriptor Table) usage. A hypervisor could not let a guest operating system manage its descriptor tables (because the guest could overwrite the hypervisor’s memory), yet instructions to store descriptor register values could not be trapped. A guest OS could therefore read true descriptor register values, quite possibly not what it had written.}
+
+\textit{These issues could be avoided by code scanning and patching, but at the cost of high complexity and a significant performance loss. The overhead would likely have made virtualization unattractive.}
+
+\paragraph{}Una de solución a esto fue propuesto por Kevin Smith en su artículo \emph{Virtualizing the 386} (\url{http://www.unz.org/Pub/ProgrammersJournal-1988may-00046})
+
+\textit{The solution was in many ways similar to what Intel implemented in VT-x nearly 20 years later. At the same time it’s also much simpler, primarily because the 386 was a far simpler CPU than the Pentium 4 class processors which first supported VT-x.}
+
+\textit{Smith suggested ``protected normal'' and ``protected VM'' processor modes, much like the root and non-root VMX operation in VT-x. Rather than creating completely new data structures, Smith's design simply extended the existing TSSs (Task State Segments) to store additional information.}
 
 \subsection{Ventajas y desventajas de máquinas virtuales}
 Ventajas
